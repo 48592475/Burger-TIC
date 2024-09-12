@@ -3,7 +3,8 @@ import PlatosRouter from "./routes/platos.router.js";
 import AuthRouter from "./routes/auth.router.js";
 import PedidosRouter from "./routes/pedidos.router.js";
 import cors from "cors";
-import "dotenv/config";
+import bd from "dotenv/config";
+
 
 const app = express();
 
