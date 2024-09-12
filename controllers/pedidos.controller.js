@@ -1,3 +1,4 @@
+import pedidosService from "../services/pedidos.service.js";
 import PedidosService from "../services/pedidos.service.js";
 
 const getPedidos = async (req, res) => {
@@ -10,6 +11,12 @@ const getPedidos = async (req, res) => {
             3. Devolver un mensaje de error si algo falló (status 500)
         
     */
+            try {
+                const pedidos = await pedidosService.getPedidos();
+                res.json(pedidos);
+            } catch (error) {
+                res.status(500).json({ message: error.message });
+            }
 };
 
 const getPedidosByUser = async (req, res) => {
@@ -36,6 +43,18 @@ const getPedidoById = async (req, res) => {
             4. Devolver un mensaje de error si algo falló (status 500)
         
     */
+            const { id } = req.params;
+
+            if (!id) return res.status(400).json({ message: "Se necesita un ID" });
+        
+            try {
+                const pedidos = await pedidosService.getPedidoById(id);
+                if (!pedidos)
+                    return res.status(404).json({ message: "pedido no encontrado" });
+                res.json(pedidos);
+            } catch (error) {
+                res.status(500).json({ message: error.message });
+            }
 };
 
 const createPedido = async (req, res) => {
@@ -53,6 +72,20 @@ const createPedido = async (req, res) => {
             8. Devolver un mensaje de error si algo falló (status 500)
         
     */
+            const pedidoo = req.body;
+
+            if (!plato)
+                return res.status(400).json({ message: "Se necesita un pedido" });
+        
+            if (!pedidoo.tipo || !pedidoo.nombre || !pedidoo.precio || !pedidoo.descripcion)
+                return res.status(400).json({ message: "Faltan campos por llenar" });
+        
+            try {
+                await pedidosService.createPedido(pedidoo);
+                res.json({ message: "pedido creado con éxito" });
+            } catch (error) {
+                res.status(500).json({ message: error.message });
+            }
 };
 
 const aceptarPedido = async (req, res) => {
