@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import usuariosService from "../services/usuarios.service.js";
 
-//routas, controllers y service
 
 const register = async (req, res) => {
     const user = req.body;
