@@ -1,3 +1,4 @@
+import pedidosService from "../services/pedidos.service.js";
 import PedidosService from "../services/pedidos.service.js";
 
 const getPedidos = async (req, res) => {
@@ -10,13 +11,6 @@ const getPedidos = async (req, res) => {
             3. Devolver un mensaje de error si algo falló (status 500)
         
     */
-            try {
-                const pedidos = await PedidosService.getPedidos();
-                res.json(pedidos);
-            } catch (error) {
-                res.status(500).json({ message: error.message });
-            }
-        
 };
 
 const getPedidosByUser = async (req, res) => {
@@ -56,17 +50,6 @@ const getPedidoById = async (req, res) => {
             4. Devolver un mensaje de error si algo falló (status 500)
         
     */
-            const { id } = req.params;
-
-            if (!id) return res.status(400).json({ message: "Se necesita un ID" });
-        
-            try {
-                const pedido = await PedidosService.getPedidoById(id);
-                if (!pedido) return res.status(404).json({ message: "Pedido no encontrado" });
-                res.json(pedido);
-            } catch (error) {
-                res.status(500).json({ message: error.message });
-            }
 };
 
 const createPedido = async (req, res) => {
@@ -84,25 +67,6 @@ const createPedido = async (req, res) => {
             8. Devolver un mensaje de error si algo falló (status 500)
         
     */
-            const { productos } = req.body;
-            const userId = req.user.id; 
-        
-            if (!productos || !Array.isArray(productos) || productos.length === 0) {
-                return res.status(400).json({ message: "El campo 'productos' debe ser un array con al menos un producto" });
-            }
-        
-            for (const producto of productos) {
-                if (!producto.id || !producto.cantidad) {
-                    return res.status(400).json({ message: "Todos los productos deben tener un 'id' y una 'cantidad'" });
-                }
-            }
-        
-            try {
-                await PedidosService.createPedido({ userId, productos });
-                res.json({ message: "Pedido creado con éxito" });
-            } catch (error) {
-                res.status(500).json({ message: error.message });
-            }
 };
 
 const aceptarPedido = async (req, res) => {
