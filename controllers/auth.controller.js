@@ -48,9 +48,7 @@ const login = async (req, res) => {
         return res.status(200).json({user, token})
     }catch(e){
         return res.status(500).json({message:error.message});
-    }
-    
-    
+    } 
 };
 
 export default { register, login };
