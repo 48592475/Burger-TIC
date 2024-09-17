@@ -236,13 +236,4 @@ const deletePedido = async (req, res) => {
          }
 };
 
-export default {
-    getPedidos,
-    getPedidosByUser,
-    getPedidoById,
-    createPedido,
-    aceptarPedido,
-    comenzarPedido,
-    entregarPedido,
-    deletePedido,
-};
+export default {getPedidos,getPedidoById,getPedidosByUser,createPedido,aceptarPedido,comenzarPedido,entregarPedido,deletePedido};
