@@ -38,8 +38,9 @@ const getPedidosByUser = async (req, res) => {
                 const pedidos = await PedidosService.getPedidosByUserId(usId);
                 if (!pedidos || pedidos.length === 0) {
                     return res.status(404).json({ message: "No se encontraron pedidos para el usuario" });
+                }else{
+                    res.json(pedidos);
                 }
-                res.json(pedidos);
             } catch (error) {
                 res.status(500).json({ message: error.message });
             }
@@ -65,9 +66,9 @@ const getPedidoById = async (req, res) => {
                 if (!pedido) {
                     return res.status(404).json({ message: "Pedido no encontrado" });
                 }
-                return res.status(200).json(pedido); // Return pedido if found
+                return res.status(200).json(pedido); 
             } catch (error) {
-                return res.status(500).json({ message: error.message }); // Handle errors
+                return res.status(500).json({ message: error.message }); 
             }
 };
 
@@ -88,8 +89,8 @@ const createPedido = async (req, res) => {
     */
             const { platos } = req.body;
 
-            if (!platos || !Array.isArray(platos) || platos.length === 0) {
-                return res.status(400).json({ message: "El pedido debe contener al menos un plato válido" });
+            if (!platos) {
+                return res.status(400).json({ message: "Completar el campo platos" });
             }
         
             try {
