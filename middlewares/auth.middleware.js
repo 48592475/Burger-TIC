@@ -23,13 +23,22 @@ export const verifyToken = async (req, res, next) => {
 };
 
 export const verifyAdmin = async (req, res, next) => {
-    // --------------- COMPLETAR ---------------
-    /*
+    try {
+        const usuario = await UsuariosService.getUsuarioById(req.userId);
+        
+        if (!usuario) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+        
+        console.log("Usuario encontrado:", usuario);
 
-        Recordar que para cumplir con toda la funcionalidad deben:
-
-            1. Verificar que el id de usuario en la request es un administrador (utilizando el servicio de usuarios)
-            2. Si no lo es, devolver un error 403 (Forbidden)
-    
-    */
+        if (!usuario.isAdmin) {
+            return res.status(403).json({ message: "Acceso denegado" });
+        }
+        
+        next(); 
+    } catch (error) {
+        console.error("Error en verifyAdmin:", error); 
+        return res.status(500).json({ message: "Error del servidor" });
+    }
 };
