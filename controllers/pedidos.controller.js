@@ -8,33 +8,6 @@ const getPedidos = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: "Error al obtener los pedidos" });
     }
-
-<<<<<<< Updated upstream
-};
-
-const getPedidosByUser = async (req, res) => {
-    const { usId } = req.params;
-    try {
-        const pedidos = await pedidosService.getPedidosByUser(usId);
-        if (pedidos.length === 0) {
-            return res.status(404).json({ error: "No se encontraron pedidos para el usuario" });
-        }
-        res.status(200).json(pedidos);
-    } catch (error) {
-        res.status(500).json({ error: "Error al obtener los pedidos del usuario" });
-    }
-=======
-            1. Utilizar el servicio de pedidos para obtener todos los pedidos
-            2. Devolver un json con los pedidos (status 200)
-            3. Devolver un mensaje de error si algo falló (status 500)
-        
-    */
-            try {
-                const pedidos = await PedidosService.getPedidos();
-                res.status(200).json(pedidos);
-            } catch (error) {
-                res.status(500).json({ message: error.message });
-            }
 };
 
 const getPedidosByUser = async (req, res) => {
@@ -61,7 +34,6 @@ const getPedidosByUser = async (req, res) => {
             } catch (error) {
                 res.status(500).json({ message: error.message });
             }
->>>>>>> Stashed changes
 };
 
 
@@ -76,9 +48,6 @@ const getPedidoById = async (req, res) => {
             4. Devolver un mensaje de error si algo falló (status 500)
         
     */
-<<<<<<< Updated upstream
-            
-=======
             const { id } = req.params;
 
             if (!id) return res.status(400).json({ message: "ID de pedido es requerido" });
@@ -92,7 +61,6 @@ const getPedidoById = async (req, res) => {
             } catch (error) {
                 res.status(500).json({ message: error.message });
             }
->>>>>>> Stashed changes
 };
 
 const createPedido = async (req, res) => {
@@ -111,41 +79,6 @@ const createPedido = async (req, res) => {
         
     */
             const { platos } = req.body;
-<<<<<<< Updated upstream
-            const idUsuario = req.user?.id; 
-            
-            if (!idUsuario) {
-                return res.status(400).json({ error: "ID de usuario no encontrado en el token" });
-            }
-        
-            if (!platos || !Array.isArray(platos) || platos.length === 0 || !platos.every(plato => plato.id && plato.cantidad)) {
-                return res.status(400).json({ error: "Platos inválidos" });
-            }
-        
-            try {
-                await pedidosService.createPedido(idUsuario, platos);
-                res.status(201).json({ message: "Pedido creado con éxito" });
-            } catch (error) {
-                console.error('Error al crear el pedido:', error);
-                res.status(500).json({ error: "Error al crear el pedido" });
-            }
-};
-
-const aceptarPedido = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const pedido = await pedidosService.getPedidoById(id);
-        if (!pedido) {
-            return res.status(404).json({ error: "Pedido no encontrado" });
-        }
-        if (pedido.estado !== "pendiente") {
-            return res.status(400).json({ error: "El pedido no esta pendiente" });
-        }
-        await pedidosService.updatePedido(id, "aceptado");
-        res.status(200).json({ message: "Pedido aceptado" });
-    } catch (error) {
-        res.status(500).json({ error: "Error al aceptar el pedido" });
-=======
 
     if (!platos || !Array.isArray(platos) || platos.length === 0) {
         return res.status(400).json({ message: "El pedido debe contener al menos un plato válido" });
@@ -157,7 +90,7 @@ const aceptarPedido = async (req, res) => {
             return res.status(400).json({ message: "Cada plato debe tener un ID y una cantidad" });
         }
 
-        const pedido = await PedidosService.createPedido(req.body.idUsuario, platos);
+        const pedido = await PedidosService.createPedido(req.userId, platos);
         res.status(201).json({ message: "Pedido creado exitosamente", pedido });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -195,27 +128,9 @@ const aceptarPedido = async (req, res) => {
         res.status(200).json({ message: "Pedido aceptado", pedido: pedidoActualizado });
     } catch (error) {
         res.status(500).json({ message: error.message });
->>>>>>> Stashed changes
     }
 };
 const comenzarPedido = async (req, res) => {
-<<<<<<< Updated upstream
-    const { id } = req.params;
-    try {
-        const pedido = await pedidosService.getPedidoById(id);
-        if (!pedido) {
-            return res.status(404).json({ error: "Pedido no encontrado" });
-        }
-        if (pedido.estado !== "aceptado") {
-            return res.status(400).json({ error: "El pedido no está  aceptado" });
-        }
-        await pedidosService.updatePedido(id, "en camino");
-        res.status(200).json({ message: "Pedido en camino" });
-    } catch (error) {
-        res.status(500).json({ error: "Error al comenzar el pedido" });
-    }
-};
-=======
     // --------------- COMPLETAR ---------------
     /*
         Recordar que para cumplir con toda la funcionalidad deben:
@@ -248,26 +163,9 @@ const comenzarPedido = async (req, res) => {
                 res.status(500).json({ message: error.message });
             }
         };
->>>>>>> Stashed changes
 
 
 const entregarPedido = async (req, res) => {
-<<<<<<< Updated upstream
-    const { id } = req.params;
-    try {
-        const pedido = await pedidosService.getPedidoById(id);
-        if (!pedido) {
-            return res.status(404).json({ error: "Pedido no encontrado" });
-        }
-        if (pedido.estado !== "en camino") {
-            return res.status(400).json({ error: "El pedido no está en camino" });
-        }
-        await pedidosService.updatePedido(id, "entregado");
-        res.status(200).json({ message: "Pedido entregado" });
-    } catch (error) {
-        res.status(500).json({ error: "Error al entregar el pedido" });
-    }
-=======
     // --------------- COMPLETAR ---------------
     /*
         Recordar que para cumplir con toda la funcionalidad deben:
@@ -299,24 +197,10 @@ const entregarPedido = async (req, res) => {
             } catch (error) {
                 res.status(500).json({ message: error.message });
             }
->>>>>>> Stashed changes
 };
             
 
 const deletePedido = async (req, res) => {
-<<<<<<< Updated upstream
-    const { id } = req.params;
-    try {
-        const pedido = await pedidosService.getPedidoById(id);
-        if (!pedido) {
-            return res.status(404).json({ error: "Pedido no encontrado" });
-        }
-        await pedidosService.deletePedido(id);
-        res.status(200).json({ message: "Pedido eliminado con éxito" });
-    } catch (error) {
-        res.status(500).json({ error: "Error al eliminar el pedido" });
-    }
-=======
     // --------------- COMPLETAR ---------------
     /*
         Recordar que para cumplir con toda la funcionalidad deben:
@@ -338,7 +222,15 @@ const deletePedido = async (req, res) => {
             } catch (error) {
                 res.status(500).json({ message: error.message });
             }
->>>>>>> Stashed changes
 };
 
-export default {getPedidos,getPedidoById,getPedidosByUser,createPedido,aceptarPedido,comenzarPedido,entregarPedido,deletePedido};
+export default {
+    getPedidos,
+    getPedidoById,
+    getPedidosByUser,
+    createPedido,
+    aceptarPedido,
+    comenzarPedido,
+    entregarPedido,
+    deletePedido
+  };
