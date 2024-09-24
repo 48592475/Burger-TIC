@@ -23,10 +23,14 @@ export const verifyAdmin = async (req, res, next) => {
     try{
         const usuario = await UsuariosService.getUsuarioById(req.userId);
         if(!usuario || usuario.admin === false){
-            return res.status(403).json({error: 'No tenes el permiso para poder hacer esta acción'})
+            return res.status(403).json({error: 'No tenes el permiso para poder hacer esta acción1'})
         }
     } catch (error){
-        return res.status(403).json({error: 'No tenes el permiso para poder hacer esta acción'})
+        return res.status(403).json({error: 'No tenes el permiso para poder hacer esta acción2'})
     }
     next();
 };
+
+
+
+//camino del login
