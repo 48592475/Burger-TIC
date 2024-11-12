@@ -181,3 +181,6 @@ INSERT INTO public.platos (tipo, nombre, precio, descripcion) VALUES
 ('postre', 'Helado', 1000, 'Helado de crema, con dulce de leche y chocolate. Es helado, acá no se me ocurre nada'),
 ('postre', 'TIC', 1500, 'Torta Irresistible de Chocolate. Es la mejor elección sobre todo si estás en 2do.');
 
+INSERT INTO public.usuarios (nombre, apellido, email, password, admin) VALUES
+('Ignacio', 'Vigilante', 'nacho@vigilante.com', '$2a$10$77dLGLC9.nceIxG/zWIt/uctZooitGgP9M7wMmzVHvFGQn/iX1z2i', false), 
+('root', 'root', 'root@root.com', '$2a$10$yv0TkSGmqqiuD8pRTc18XOJ0p1YvR69WoVdr.3oiN82Jo8GvSfBo6', true);

@@ -1,112 +1,45 @@
-import { config } from "../db.js";
-import pkg from "pg";
-const { Client } = pkg;
+import { Plato } from "../models/platos.model.js";
 
-const getPlatos = async () => {
-    const client = new Client(config);
-    await client.connect();
+const getPlatos = async () => await Plato.findAll();
 
-    try {
-        const { rows } = await client.query("SELECT * FROM platos");
+const getPlatoById = async (id) =>
+    await Plato.findAll({
+        where: {
+            id: id,
+        },
+    });
 
-        await client.end();
-        return rows;
-    } catch (error) {
-        await client.end();
-        throw error;
-    }
-};
+const createPlato = async (plato) =>
+    Plato.create({
+        tipo: plato.tipo,
+        nombre: plato.nombre,
+        precio: plato.precio,
+        descripcion: plato.descripcion,
+    });
 
-const getPlatoById = async (id) => {
-    const client = new Client(config);
-    await client.connect();
+const updatePlato = async (id, newData) => {
+    const plato = await Plato.findByPk(id);
 
-    try {
-        const { rows } = await client.query(
-            "SELECT * FROM platos WHERE id = $1",
-            [id]
-        );
-        if (rows.length < 1) return null;
+    if (!plato) throw new Error("Plato no encontrado");
 
-        await client.end();
-        return rows[0];
-    } catch (error) {
-        await client.end();
-        throw error;
-    }
-};
+    plato.tipo = newData.tipo;
+    plato.nombre = newData.nombre;
+    plato.precio = newData.precio;
+    plato.descripcion = newData.descripcion;
 
-const createPlato = async (plato) => {
-    const client = new Client(config);
-    await client.connect();
-
-    try {
-        const { rows } = await client.query(
-            "INSERT INTO platos (tipo, nombre, precio, descripcion) VALUES ($1, $2, $3, $4)",
-            [plato.tipo, plato.nombre, plato.precio, plato.descripcion]
-        );
-
-        await client.end();
-        return rows;
-    } catch (error) {
-        await client.end();
-        throw error;
-    }
-};
-
-const updatePlato = async (id, plato) => {
-    const client = new Client(config);
-    await client.connect();
-
-    try {
-        const { rows } = await client.query(
-            "UPDATE platos SET tipo = $1, nombre = $2, precio = $3, descripcion = $4 WHERE id = $5",
-            [plato.tipo, plato.nombre, plato.precio, plato.descripcion, id]
-        );
-
-        await client.end();
-        return rows;
-    } catch (error) {
-        await client.end();
-        throw error;
-    }
+    await plato.save();
 };
 
 const deletePlato = async (id) => {
-    const client = new Client(config);
-    await client.connect();
+    const plato = await Plato.findByPk(id);
 
-    try {
-        const { rows } = await client.query(
-            "DELETE FROM platos WHERE id = $1",
-            [id]
-        );
+    if (!plato) throw new Error("Plato no encontrado");
 
-        await client.end();
-        return rows;
-    } catch (error) {
-        await client.end();
-        throw error;
-    }
+    await plato.destroy();
 };
 
-const getPlatosByTipo = async (tipo) => {
-    const client = new Client(config);
-    await client.connect();
-
-    try {
-        const { rows } = await client.query(
-            "SELECT * FROM platos WHERE tipo = $1",
-            [tipo]
-        );
-
-        await client.end();
-        return rows;
-    } catch (error) {
-        await client.end();
-        throw error;
-    }
-};
+const getPlatosByTipo = async (tipo) =>
+    Plato.findAll({ where: { tipo: tipo } });
 
 export default {
     getPlatos,

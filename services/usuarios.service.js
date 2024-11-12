@@ -2,60 +2,58 @@ import { config } from "../db.js";
 import pkg from "pg";
 const { Client } = pkg;
 
-const getUsuarioByEmail = async (email) => {
-    const client = new Client(config);
-    await client.connect();
+import Usuario from '../models/usuarios.model.js';
 
-    try {
-        const { rows } = await client.query(
-            "SELECT * FROM usuarios WHERE email = $1",
-            [email]
-        );
-        if (rows.length < 1) return null;
+const getUsuarios = async () => await Usuario.findAll();
 
-        await client.end();
-        return rows[0];
-    } catch (error) {
-        await client.end();
-        throw error;
-    }
+const getUsuarioById = async (id) =>
+    await Usuario.findOne({
+        where: {
+            id: id,
+        },
+    });
+
+const getUsuarioByEmail = async (email) =>
+    await Usuario.findOne({
+        where: {
+            email: email,
+        },
+    });
+
+const createUsuario = async (usuarioData) =>
+    Usuario.create({
+        nombre: usuarioData.nombre,
+        apellido: usuarioData.apellido,
+        email: usuarioData.email,
+        password: usuarioData.password,
+    });
+
+const updateUsuario = async (id, newData) => {
+    const usuario = await Usuario.findByPk(id);
+
+    if (!usuario) throw new Error("Usuario no encontrado");
+
+    usuario.nombre = newData.nombre;
+    usuario.apellido = newData.apellido;
+    usuario.email = newData.email;
+    usuario.password = newData.password;
+
+    await usuario.save();
 };
 
-const getUsuarioById = async (id) => {
-    const client = new Client(config);
-    await client.connect();
+const deleteUsuario = async (id) => {
+    const usuario = await Usuario.findByPk(id);
 
-    try {
-        const { rows } = await client.query(
-            "SELECT * FROM usuarios WHERE id = $1",
-            [id]
-        );
-        if (rows.length < 1) return null;
+    if (!usuario) throw new Error("Usuario no encontrado");
 
-        await client.end();
-        return rows[0];
-    } catch (error) {
-        await client.end();
-        throw error;
-    }
+    await usuario.destroy();
 };
 
-const createUsuario = async (usuario) => {
-    const client = new Client(config);
-    await client.connect();
-
-    try {
-        const { rows } = await client.query(
-            "INSERT INTO usuarios (nombre, apellido, email, password, admin) VALUES ($1, $2, $3, $4, false)",
-            [usuario.nombre, usuario.apellido, usuario.email, usuario.password]
-        );
-
-        await client.end();
-        return rows;
-    } catch (error) {
-        await client.end();
-        throw error;
-    }
+export default {
+    getUsuarios,
+    getUsuarioById,
+    getUsuarioByEmail,
+    createUsuario,
+    updateUsuario,
+    deleteUsuario,
 };
-
-export default { getUsuarioByEmail, getUsuarioById, createUsuario };

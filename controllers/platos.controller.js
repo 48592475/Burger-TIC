@@ -5,6 +5,7 @@ const getPlatos = async (req, res) => {
         const platos = await PlatosService.getPlatos();
         res.json(platos);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: error.message });
     }
 };
