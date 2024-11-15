@@ -1,8 +1,4 @@
-import { config } from "../db.js";
-import pkg from "pg";
-const { Client } = pkg;
-
-import Usuario from '../models/usuarios.model.js';
+import {Usuario} from '../models/usuarios.model.js';
 
 const getUsuarios = async () => await Usuario.findAll();
 

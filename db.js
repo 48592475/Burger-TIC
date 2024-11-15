@@ -9,8 +9,9 @@ export const config = {
     ssl: true,
 };
 
-
 import { Sequelize } from "sequelize";
+
+console.log(process.env.DB_URL);
 
 export const sequelize = new Sequelize(
     process.env.DB_URL

@@ -1,31 +1,27 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../db.js";
 
-export class Plato extends Model {}
-
+export class Plato extends Model{}
 Plato.init(
     {
-        id: {
+        id:{
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            primaryKey: true,
+            primaryKey: true, 
         },
-        tipo: {
+        tipo:{
             type: DataTypes.STRING,
         },
-        nombre: {
+        nombre:{
             type: DataTypes.STRING,
         },
-        precio: {
+        precio:{
             type: DataTypes.FLOAT,
         },
-        descripcion: {
+        descripcion:{
             type: DataTypes.STRING,
         },
-    },
-    {
-        sequelize,
-        modelName: "platos",
-        timestamps: false,
-    }
+},
+{sequelize}
 );
+await sequelize.sync({alter:"true"})

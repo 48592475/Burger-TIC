@@ -1,8 +1,5 @@
-import { config } from "../db.js";
-import pkg from "pg";
-const { Client } = pkg;
 
-import Pedido from '../models/pedidos.model.js';
+import {Pedido} from '../models/pedidos.model.js';
 
 const getPedidos = async () =>
     await Pedido.findAll({
