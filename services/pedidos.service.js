@@ -1,21 +1,21 @@
-
 import {Pedido} from '../models/pedidos.model.js';
+
 
 const getPedidos = async () =>
     await Pedido.findAll({
-        include: [PedidoPlato],
+        include: [Pedido],
     });
 
 const getPedidoById = async (id) =>
     await Pedido.findOne({
         where: { id: id },
-        include: [PedidoPlato],
+        include: [Pedido],
     });
 
 const getPedidosByUser = async (idUsuario) =>
     await Pedido.findAll({
         where: { idUsuario: idUsuario },
-        include: [PedidoPlato],
+        include: [Pedido],
     });
 
 const createPedido = async (idUsuario, platos) => {
@@ -31,7 +31,7 @@ const createPedido = async (idUsuario, platos) => {
         cantidad: plato.cantidad,
     }));
 
-    await PedidoPlato.bulkCreate(platosData);
+    await Pedido.bulkCreate(platosData);
 
     return pedido;
 };
