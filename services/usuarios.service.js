@@ -16,12 +16,12 @@ const getUsuarioByEmail = async (email) =>
         },
     });
 
-const createUsuario = async (usuarioData) =>
+const createUsuario = async (usuario) =>
     Usuario.create({
-        nombre: usuarioData.nombre,
-        apellido: usuarioData.apellido,
-        email: usuarioData.email,
-        password: usuarioData.password,
+        nombre: usuario.nombre,
+        apellido: usuario.apellido,
+        email: usuario.email,
+        password: usuario.password,
     });
 
 const updateUsuario = async (id, newData) => {
