@@ -3,7 +3,7 @@ import {Usuario} from '../models/usuarios.model.js';
 const getUsuarios = async () => await Usuario.findAll();
 
 const getUsuarioById = async (id) =>
-    await Usuario.findOne({
+    await Usuario.findOne({ //PREGUNTAR SI ESTA BIEN FINDONE
         where: {
             id: id,
         },

@@ -7,7 +7,7 @@ const getPedidos = async () =>
     });
 
 const getPedidoById = async (id) =>
-    await Pedido.findOne({
+    await Pedido.findAll({
         where: { id: id },
         include: [Pedido],
     });
