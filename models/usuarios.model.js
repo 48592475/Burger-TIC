@@ -27,4 +27,3 @@ Usuario.init(
     sequelize
 }
 );
-await sequelize.sync({alter:"true"})

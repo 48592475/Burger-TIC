@@ -4,11 +4,14 @@ import AuthRouter from "./routes/auth.router.js";
 import PedidosRouter from "./routes/pedidos.router.js";
 import cors from "cors";
 import "dotenv/config";
+import { definirModelos } from "./associations/associations.js";
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+await definirModelos();
 
 app.get("/", (_, res) => res.send("BurgerTIC API is running..."));
 
