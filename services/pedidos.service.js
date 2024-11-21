@@ -22,9 +22,9 @@ const getPlatosByPedido = async (idPedido) => {
 const getPedidos = async () => {
   const pedidosdb = await Pedido.findAll();
 
-  const r = [];
+  const array = [];
   for (const p of pedidosdb) {
-    r.push({
+    array.push({
       id: p.id,
       idUsuario: p.UsuarioId,
       fecha: p.fecha,
@@ -33,7 +33,7 @@ const getPedidos = async () => {
     });
   }
 
-  return r;
+  return array;
 };
 
 const getPedidoById = async (id) => {
